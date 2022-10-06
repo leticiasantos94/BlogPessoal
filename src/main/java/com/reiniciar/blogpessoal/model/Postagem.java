@@ -6,11 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "tb_postagens")
@@ -18,7 +22,7 @@ public class Postagem {
 
 	@Id        //chave primária
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO INCREMENTE
-	private long id;
+	private Long id;
 	
 	@NotBlank  //not null
 	@Size(min = 5, max = 50)
@@ -31,11 +35,15 @@ public class Postagem {
 	@UpdateTimestamp
 	private LocalDateTime data;
 
-	public long getId() {
-		return id;
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Tema tema;
+	
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setId(long id) {
+		public void setId(long id) {
 		this.id = id;
 	}
 
@@ -63,5 +71,12 @@ public class Postagem {
 		this.data = data;
 	}
 	
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
+	}
 	
 }
